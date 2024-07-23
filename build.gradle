@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'dev.mzcy'
+version = '1.0-SNAPSHOT'
+mainClassName = "dev.mzcy.Launcher"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+}
+
+tasks {
+    shadowJar {
+        manifest {
+            attributes 'Main-Class': mainClassName
+        }
+    }
+    test {
+        useJUnitPlatform()
+    }
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+    compileJava {
+        options.encoding = 'UTF-8'
+        options.incremental = true
+    }
+}
