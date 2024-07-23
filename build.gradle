@@ -3,6 +3,7 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.26.0'
 }
 
 group = 'dev.mzcy'
@@ -23,11 +24,13 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:19'
     implementation 'org.openjfx:javafx-fxml:19'
 
+    implementation 'org.jetbrains:annotations:22.0.0'
+
     implementation 'com.google.code.gson:gson:2.11.0'
 }
 
 javafx {
-    version = "19"
+    version = "21"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
@@ -50,5 +53,11 @@ tasks {
     }
     application {
         setMainClass(mainClassName)
+    }
+    jlink {
+        options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+        launcher {
+            name = 'hellofx'
+        }
     }
 }

@@ -1,5 +1,17 @@
 package dev.mzcy.configuration.design.background;
 
+import dev.mzcy.configuration.design.background.gradient.BackgroundGradient;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class Background {
 
     boolean isImageBackground = false;
@@ -8,6 +20,17 @@ public class Background {
     boolean isBlurred = false;
     float blurryness = 0.0f;
     boolean isGradient = false;
+    BackgroundGradient backgroundGradient = null;
 
-
+    public static Background getDefaultBackground() {
+        Background background = new Background();
+        background.setImageBackground(false);
+        background.setBackgroundImage(null);
+        background.setBackgroundColor("#111111");
+        background.setBlurred(false);
+        background.setBlurryness(0.0f);
+        background.setGradient(false);
+        background.setBackgroundGradient(null);
+        return background;
+    }
 }

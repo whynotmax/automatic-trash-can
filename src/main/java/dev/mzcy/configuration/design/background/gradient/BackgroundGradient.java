@@ -5,6 +5,6 @@ import java.util.List;
 public class BackgroundGradient {
 
     List<String> colors;
-
+    GradientType gradientType;
 
 }
