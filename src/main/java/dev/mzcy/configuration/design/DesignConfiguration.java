@@ -1,5 +1,6 @@
 package dev.mzcy.configuration.design;
 
+import com.google.gson.TypeAdapter;
 import dev.mzcy.TrashCan;
 import dev.mzcy.configuration.design.background.Background;
 import dev.mzcy.logger.ConsoleLogger;
@@ -23,6 +24,7 @@ public class DesignConfiguration {
 
     Background background;
 
+
     public static DesignConfiguration getDefaultDesignConfiguration() {
         DesignConfiguration designConfiguration = new DesignConfiguration();
         designConfiguration.setBackground(Background.getDefaultBackground());
@@ -32,12 +34,20 @@ public class DesignConfiguration {
     public void load(Path configPath) {
         try (FileReader reader = new FileReader(configPath.toFile())) {
             DesignConfiguration config = TrashCan.GSON.fromJson(reader, DesignConfiguration.class);
+            if (config == null) {
+                this.setBackground(Background.getDefaultBackground());
+                ConsoleLogger.logError("Failed to load design configuration. Using default configuration.");
+                save(configPath);
+                ConsoleLogger.logInfo("Default design configuration saved successfully.");
+                return;
+            }
             this.setBackground(config.getBackground());
             ConsoleLogger.logInfo("Design configuration loaded successfully. Using custom configuration.");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
             this.setBackground(Background.getDefaultBackground());
             ConsoleLogger.logError("Failed to load design configuration. Using default configuration.");
+            save(configPath);
+            ConsoleLogger.logInfo("Default design configuration saved successfully.");
         }
     }
 
